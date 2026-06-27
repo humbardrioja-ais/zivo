@@ -3,7 +3,7 @@ import { PageLayout } from '@/components/shared/page-layout'
 import { PageHeader } from '@/components/shared/page-header'
 import { EmptyState } from '@/components/shared/empty-state'
 
-export const metadata = { title: 'Job Titles — Administration — Zivo OS' }
+export const metadata = { title: 'Job Titles — System — Zivo OS' }
 
 export default function JobTitlesPage() {
   return (

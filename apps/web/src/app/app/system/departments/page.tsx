@@ -3,7 +3,7 @@ import { PageLayout } from '@/components/shared/page-layout'
 import { PageHeader } from '@/components/shared/page-header'
 import { EmptyState } from '@/components/shared/empty-state'
 
-export const metadata = { title: 'Departments — Administration — Zivo OS' }
+export const metadata = { title: 'Departments — System — Zivo OS' }
 
 export default function DepartmentsPage() {
   return (

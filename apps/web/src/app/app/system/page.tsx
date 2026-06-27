@@ -12,22 +12,22 @@ import { PageLayout } from '@/components/shared/page-layout'
 import { PageHeader } from '@/components/shared/page-header'
 
 const sections = [
-  { title: 'Organization', description: 'Company profile and branding', icon: Building2, href: '/app/admin/organization' },
-  { title: 'Departments', description: 'Organizational structure', icon: Network, href: '/app/admin/departments' },
-  { title: 'Users', description: 'User accounts and access', icon: Users, href: '/app/admin/users' },
-  { title: 'Roles', description: 'Role definitions', icon: Shield, href: '/app/admin/roles' },
-  { title: 'Permissions', description: 'Access control policies', icon: Lock, href: '/app/admin/permissions' },
-  { title: 'Job Titles', description: 'Position catalog', icon: Briefcase, href: '/app/admin/job-titles' },
-  { title: 'System Settings', description: 'Platform configuration', icon: Settings, href: '/app/admin/settings' },
+  { title: 'Organization', description: 'Company profile and branding', icon: Building2, href: '/app/system/organization' },
+  { title: 'Departments', description: 'Organizational structure', icon: Network, href: '/app/system/departments' },
+  { title: 'Users', description: 'User accounts and access', icon: Users, href: '/app/system/users' },
+  { title: 'Roles', description: 'Role definitions', icon: Shield, href: '/app/system/roles' },
+  { title: 'Permissions', description: 'Access control policies', icon: Lock, href: '/app/system/permissions' },
+  { title: 'Job Titles', description: 'Position catalog', icon: Briefcase, href: '/app/system/job-titles' },
+  { title: 'System Settings', description: 'Platform configuration', icon: Settings, href: '/app/system/settings' },
 ]
 
-export const metadata = { title: 'Administration — Zivo OS' }
+export const metadata = { title: 'System — Zivo OS' }
 
-export default function AdminPage() {
+export default function SystemPage() {
   return (
     <PageLayout>
       <PageHeader
-        title="Administration"
+        title="System"
         description="Manage your organization, users, roles, and system configuration."
       />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -66,8 +66,8 @@ const toolsNav = [
   { title: 'AI Assistant', icon: Sparkles, href: '/app/ai' },
 ]
 
-const adminNav = [
-  { title: 'Administration', icon: ShieldCheck, href: '/app/admin' },
+const systemNav = [
+  { title: 'System', icon: ShieldCheck, href: '/app/system' },
 ]
 
 export function AppSidebar() {
@@ -149,7 +149,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {adminNav.map((item) => (
+              {systemNav.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     render={<a href={item.href} />}
