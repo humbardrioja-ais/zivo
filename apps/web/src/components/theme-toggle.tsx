@@ -1,24 +1,30 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 import { Button } from '@/components/ui/button'
 
-export function ThemeToggle() {
-  const [dark, setDark] = useState(false)
+function getTheme() {
+  if (typeof window === 'undefined') return false
+  const stored = localStorage.getItem('theme')
+  return stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)
+}
 
-  useEffect(() => {
-    const stored = localStorage.getItem('theme')
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    const isDark = stored === 'dark' || (!stored && prefersDark)
-    setDark(isDark)
-    document.documentElement.classList.toggle('dark', isDark)
-  }, [])
+function subscribe(cb: () => void) {
+  window.addEventListener('storage', cb)
+  return () => window.removeEventListener('storage', cb)
+}
+
+export function ThemeToggle() {
+  const dark = useSyncExternalStore(subscribe, getTheme, () => false)
+
+  if (typeof window !== 'undefined') {
+    document.documentElement.classList.toggle('dark', dark)
+  }
 
   function toggle() {
     const next = !dark
-    setDark(next)
-    document.documentElement.classList.toggle('dark', next)
     localStorage.setItem('theme', next ? 'dark' : 'light')
+    window.dispatchEvent(new StorageEvent('storage'))
   }
 
   return (
