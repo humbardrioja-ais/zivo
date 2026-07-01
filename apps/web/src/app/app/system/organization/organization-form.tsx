@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,26 +16,45 @@ import {
 } from '@/components/ui/select'
 import { Card, CardContent } from '@/components/ui/card'
 import { FormSection } from '@/components/shared/form-section'
+import { saveOrganization, type OrganizationProfile } from './actions'
 
-const defaults = {
-  name: '',
-  legalName: '',
-  description: '',
-  primaryColor: '#000000',
-  secondaryColor: '#6b7280',
-  email: '',
-  phone: '',
-  website: '',
-  country: '',
-  timezone: '',
-  language: '',
-  currency: '',
-  dateFormat: '',
-  timeFormat: '',
-  address: '',
+type FormData = {
+  name: string
+  legalName: string
+  description: string
+  primaryColor: string
+  secondaryColor: string
+  email: string
+  phone: string
+  website: string
+  country: string
+  timezone: string
+  language: string
+  currency: string
+  dateFormat: string
+  timeFormat: string
+  address: string
 }
 
-type FormData = typeof defaults
+function toFormData(org: OrganizationProfile): FormData {
+  return {
+    name: org.name ?? '',
+    legalName: org.legal_name ?? '',
+    description: org.description ?? '',
+    primaryColor: org.primary_color ?? '#000000',
+    secondaryColor: org.secondary_color ?? '#6b7280',
+    email: org.email ?? '',
+    phone: org.phone ?? '',
+    website: org.website ?? '',
+    country: org.country ?? '',
+    timezone: org.timezone ?? '',
+    language: org.language ?? '',
+    currency: org.currency ?? '',
+    dateFormat: org.date_format ?? '',
+    timeFormat: org.time_format ?? '',
+    address: org.address ?? '',
+  }
+}
 
 const timezones = [
   'UTC',
@@ -85,9 +105,16 @@ const timeFormats = [
   { value: '24h', label: '24-hour' },
 ]
 
-export function OrganizationForm() {
-  const [form, setForm] = useState<FormData>(defaults)
-  const [saved, setSaved] = useState<FormData>(defaults)
+interface OrganizationFormProps {
+  organization: OrganizationProfile
+}
+
+export function OrganizationForm({ organization }: OrganizationFormProps) {
+  const router = useRouter()
+  const initial = toFormData(organization)
+  const [form, setForm] = useState<FormData>(initial)
+  const [saved, setSaved] = useState<FormData>(initial)
+  const [saving, setSaving] = useState(false)
 
   const hasChanges = JSON.stringify(form) !== JSON.stringify(saved)
 
@@ -102,8 +129,31 @@ export function OrganizationForm() {
     setForm(saved)
   }
 
-  function handleSave() {
+  async function handleSave() {
+    setSaving(true)
+    const result = await saveOrganization(organization.id, {
+      name: form.name,
+      legal_name: form.legalName || null,
+      description: form.description || null,
+      primary_color: form.primaryColor || null,
+      secondary_color: form.secondaryColor || null,
+      email: form.email || null,
+      phone: form.phone || null,
+      website: form.website || null,
+      country: form.country || null,
+      timezone: form.timezone || null,
+      language: form.language || null,
+      currency: form.currency || null,
+      date_format: form.dateFormat || null,
+      time_format: form.timeFormat || null,
+      address: form.address || null,
+    })
+    setSaving(false)
+
+    if (result.error) return
+
     setSaved(form)
+    router.refresh()
   }
 
   return (
@@ -325,11 +375,11 @@ export function OrganizationForm() {
         </FormSection>
 
         <div className="flex justify-end gap-3 pt-2">
-          <Button variant="outline" onClick={handleCancel} disabled={!hasChanges}>
+          <Button variant="outline" onClick={handleCancel} disabled={!hasChanges || saving}>
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={!hasChanges}>
-            Save Changes
+          <Button onClick={handleSave} disabled={!hasChanges || saving}>
+            {saving ? 'Saving...' : 'Save Changes'}
           </Button>
         </div>
       </CardContent>

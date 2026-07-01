@@ -1,10 +1,12 @@
 import {
   Building2,
+  MapPin,
   Network,
   Users,
   Shield,
   Lock,
   Briefcase,
+  UserCog,
   Settings,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -13,11 +15,13 @@ import { PageHeader } from '@/components/shared/page-header'
 
 const sections = [
   { title: 'Organization', description: 'Company profile and branding', icon: Building2, href: '/app/system/organization' },
+  { title: 'Branches', description: 'Locations and offices', icon: MapPin, href: '/app/system/branches' },
   { title: 'Departments', description: 'Organizational structure', icon: Network, href: '/app/system/departments' },
-  { title: 'Users', description: 'User accounts and access', icon: Users, href: '/app/system/users' },
-  { title: 'Roles', description: 'Role definitions', icon: Shield, href: '/app/system/roles' },
-  { title: 'Permissions', description: 'Access control policies', icon: Lock, href: '/app/system/permissions' },
   { title: 'Job Titles', description: 'Position catalog', icon: Briefcase, href: '/app/system/job-titles' },
+  { title: 'Employment Types', description: 'Full-time, part-time, contract', icon: UserCog, href: '/app/system/employment-types' },
+  { title: 'Users', description: 'Member assignments and access', icon: Users, href: '/app/system/users' },
+  { title: 'Roles', description: 'Role definitions and hierarchy', icon: Shield, href: '/app/system/roles' },
+  { title: 'Permissions', description: 'Access control policies', icon: Lock, href: '/app/system/permissions' },
   { title: 'System Settings', description: 'Platform configuration', icon: Settings, href: '/app/system/settings' },
 ]
 

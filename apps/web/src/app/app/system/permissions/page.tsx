@@ -1,22 +1,18 @@
-import { Lock } from 'lucide-react'
 import { PageLayout } from '@/components/shared/page-layout'
 import { PageHeader } from '@/components/shared/page-header'
-import { EmptyState } from '@/components/shared/empty-state'
+import { PermissionsMatrix } from './permissions-matrix'
+import { getPermissionGroups } from './actions'
+import { getRoles } from '../roles/actions'
 
 export const metadata = { title: 'Permissions — System — Zivo OS' }
 
-export default function PermissionsPage() {
+export default async function PermissionsPage() {
+  const [permissionGroups, roles] = await Promise.all([getPermissionGroups(), getRoles()])
+
   return (
     <PageLayout>
-      <PageHeader
-        title="Permissions"
-        description="Configure granular access control policies across the platform."
-      />
-      <EmptyState
-        icon={Lock}
-        title="No data yet"
-        description="Permission policies will be managed here."
-      />
+      <PageHeader title="Permissions" description="View permission assignments across all roles." />
+      <PermissionsMatrix permissionGroups={permissionGroups} roles={roles} />
     </PageLayout>
   )
 }

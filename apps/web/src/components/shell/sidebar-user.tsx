@@ -2,7 +2,7 @@
 
 import { ChevronsUpDown, LogOut, Settings, User } from 'lucide-react'
 import { useAuth } from '@/components/auth-provider'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/supabase/browser'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   SidebarMenu,
@@ -32,7 +32,7 @@ export function SidebarUser() {
 
   async function handleSignOut() {
     const supabase = createClient()
-    await supabase.auth.signOut()
+    if (supabase) await supabase.auth.signOut()
     window.location.href = '/login'
   }
 

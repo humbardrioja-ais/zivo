@@ -1,22 +1,18 @@
-import { Shield } from 'lucide-react'
 import { PageLayout } from '@/components/shared/page-layout'
 import { PageHeader } from '@/components/shared/page-header'
-import { EmptyState } from '@/components/shared/empty-state'
+import { RolesTable } from './roles-table'
+import { getRoles } from './actions'
+import { getPermissionGroups } from '../permissions/actions'
 
 export const metadata = { title: 'Roles — System — Zivo OS' }
 
-export default function RolesPage() {
+export default async function RolesPage() {
+  const [roles, permissionGroups] = await Promise.all([getRoles(), getPermissionGroups()])
+
   return (
     <PageLayout>
-      <PageHeader
-        title="Roles"
-        description="Define roles and their associated permission sets."
-      />
-      <EmptyState
-        icon={Shield}
-        title="No data yet"
-        description="Role definitions will be configured here."
-      />
+      <PageHeader title="Roles" description="Define roles and their associated permission sets." />
+      <RolesTable initial={roles} permissionGroups={permissionGroups} />
     </PageLayout>
   )
 }
