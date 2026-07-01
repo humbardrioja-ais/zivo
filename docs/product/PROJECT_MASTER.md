@@ -104,10 +104,28 @@ Reserved but NOT implemented in v1.0:
 ## Roadmap
 
 1. ~~Foundation v1.0~~ — **FROZEN**
-2. **Zivo OS Design System** (next) — premium enterprise design language: no emojis, consistent icon library, minimal modern UI inspired by Linear/Notion/Stripe/GitHub/Vercel. Reusable design components.
-3. Dashboard
+2. ~~Zivo OS Design System~~ — **COMPLETE**
+3. **Dashboard** (next)
 4. Projects
 5. Tasks
 6. Calendar · Files · Meetings · Notifications
 
 HR, CRM, Finance come after the Internal Productivity Suite.
+
+---
+
+## Design System (Complete)
+
+Premium, minimal, enterprise UI inspired by Linear/Notion/Stripe/GitHub/Vercel. No emojis. Lucide icons only. Neutral OKLCH palette, light + dark. Motion 150–250ms.
+
+**Design tokens** (`globals.css`): colors, typography, spacing, radius, motion (`--motion-*`, `--ease-out`), elevation (`--elevation-*`), focus rings, dark mode.
+
+**Layout primitives:** AppLayout (shell + auth guard + sidebar-state persistence), Sidebar (collapsible, grouped, cookie-persisted), TopBar (breadcrumbs, search, Quick Create, notifications, theme toggle), PageLayout, PageHeader, ContentContainer, Section.
+
+**Shared components** (`components/shared`, barrel `index.ts`): DataToolbar, TableSkeleton, StatCard, StatusBadge, PriorityBadge, EmptyState, ErrorState, Spinner, LoadingOverlay, ConfirmDialog, FormSection.
+
+**UI primitives** (`components/ui`, shadcn/base-ui): button, input, textarea, select, checkbox, dialog, sheet, dropdown-menu, table, card, badge, avatar, tooltip, breadcrumb, separator, skeleton, sidebar, collapsible, label.
+
+**Error routes:** `app/not-found.tsx`, `app/error.tsx`, `app/app/not-found.tsx`.
+
+All System pages (Organization, Branches, Departments, Job Titles, Employment Types, Users, Roles, Permissions, Settings) share the same layout and components.

@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
@@ -12,8 +13,11 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     redirect('/login')
   }
 
+  const cookieStore = await cookies()
+  const defaultOpen = cookieStore.get('sidebar_state')?.value !== 'false'
+
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar />
       <SidebarInset>
         <TopBar />

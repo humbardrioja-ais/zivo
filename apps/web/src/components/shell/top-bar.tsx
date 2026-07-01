@@ -1,6 +1,6 @@
 'use client'
 
-import { Search, Bell } from 'lucide-react'
+import { Search, Bell, Plus } from 'lucide-react'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
@@ -22,12 +22,17 @@ export function TopBar() {
             type="search"
             placeholder="Search..."
             className="w-56 pl-8 h-9"
+            aria-label="Global search"
           />
         </div>
         <Button variant="ghost" size="icon" className="md:hidden" aria-label="Search">
           <Search className="h-4 w-4" />
         </Button>
-        <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
+        <Button size="sm" className="hidden sm:inline-flex" disabled>
+          <Plus className="mr-1.5 h-4 w-4" />
+          Create
+        </Button>
+        <Button variant="ghost" size="icon" aria-label="Notifications">
           <Bell className="h-4 w-4" />
         </Button>
         <ThemeToggle />
