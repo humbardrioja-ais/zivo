@@ -105,12 +105,33 @@ Reserved but NOT implemented in v1.0:
 
 1. ~~Foundation v1.0~~ — **FROZEN**
 2. ~~Zivo OS Design System~~ — **COMPLETE**
-3. **Dashboard** (next)
-4. Projects
+3. ~~Home Dashboard + Workflow Foundation~~ — **COMPLETE**
+4. **Projects** (next)
 5. Tasks
 6. Calendar · Files · Meetings · Notifications
 
 HR, CRM, Finance come after the Internal Productivity Suite.
+
+---
+
+## Home Dashboard + Workflow Foundation (Complete)
+
+**Home** (`app/app/page.tsx`) — the productivity-first landing page. Answers
+"what should I work on today?" with honest empty states (no fake analytics):
+Welcome + AI Summary placeholder, Quick Create, Continue Working, My Tasks,
+Today's Meetings, Upcoming Deadlines, Pinned Projects, Recent Activity.
+Section components live in `app/app/_dashboard/`.
+
+**Workflow Foundation** (`lib/workflow/`) — reusable architecture the future
+Workflow & Task Engine and every module (Projects, Tasks, Meetings, Calendar,
+CRM, HR, Finance) will share. No database schema; UI/service contracts only.
+- `types.ts` — WorkItem, MeetingSummary, DeadlineItem, ProjectSummary,
+  ActivityEvent, DashboardData; priority/status/module unions.
+- `context.ts` — `getWorkflowContext()` resolves the authed member + org.
+- `dashboard-service.ts` — provider-based aggregator. Each section is a
+  `DashboardSources` method; defaults return empty until a module ships, so
+  the dashboard gains real data with no UI change and degrades gracefully.
+- `format.ts` — greeting, dates, relative time, due-date labels.
 
 ---
 
