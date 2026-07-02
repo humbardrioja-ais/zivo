@@ -76,7 +76,9 @@ export function ProjectDetail({ project, initialMembers, initialAreas, orgMember
       {tab === 'Overview' && (
         <Card>
           <CardContent className="space-y-6 pt-6">
-            {project.description && <p className="text-sm">{project.description}</p>}
+            {project.description && (
+              <div className="zivo-prose text-sm" dangerouslySetInnerHTML={{ __html: project.description }} />
+            )}
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               <Field label="Status" value={<StatusBadge status={project.status} />} />
               <Field label="Lead" value={leadName} />

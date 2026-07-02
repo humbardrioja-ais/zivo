@@ -108,6 +108,7 @@ Reserved but NOT implemented in v1.0:
 3. ~~Home Dashboard + Workflow Foundation~~ — **COMPLETE**
 4. ~~Projects — Preparation~~ — **COMPLETE** (audit + gap analysis: `docs/product/PROJECTS_PREP.md`)
 5. ~~Projects — Implementation (MVP, Project Model v1.0)~~ — **COMPLETE**
+5a. ~~Shared Form Components v1.0~~ — **COMPLETE** (MemberPicker, DatePicker, Combobox, RichTextEditor — see `docs/product/SHARED_COMPONENTS.md`)
 6. **Tasks** (next)
 7. Calendar · Files · Meetings · Notifications
 

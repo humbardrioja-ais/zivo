@@ -121,16 +121,44 @@ export async function deleteProject(id: string): Promise<{ error: string }> {
 
 export async function getProjectMembers(projectId: string): Promise<ProjectMember[]> {
   const supabase = await createClient()
-  const { data, error } = await supabase
+
+  const { data: rows, error } = await supabase
     .from('project_members')
-    .select('*, organization_members(user_profiles(display_name))')
+    .select('*')
     .eq('project_id', projectId)
-  if (error) return []
-  return (data ?? []).map((m: Record<string, unknown>) => {
-    const om = m.organization_members as Record<string, unknown> | null
-    const profile = om?.user_profiles as Record<string, unknown> | null
-    return { ...m, display_name: (profile?.display_name as string | null) ?? null }
-  }) as ProjectMember[]
+  if (error || !rows) return []
+
+  // Resolve display names: project_members → organization_members → user_profiles.
+  // organization_members and user_profiles share no FK, so resolve in two steps.
+  const memberIds = rows.map((r: Record<string, unknown>) => r.member_id as string)
+  const nameByMember: Record<string, string> = {}
+  if (memberIds.length > 0) {
+    const { data: oms } = await supabase
+      .from('organization_members')
+      .select('id, user_id')
+      .in('id', memberIds)
+    const userIds = (oms ?? []).map((o: Record<string, unknown>) => o.user_id as string)
+    const nameByUser: Record<string, string> = {}
+    if (userIds.length > 0) {
+      const { data: profiles } = await supabase
+        .from('user_profiles')
+        .select('id, display_name')
+        .in('id', userIds)
+      for (const p of profiles ?? []) {
+        const name = (p.display_name as string | null)?.trim()
+        if (name) nameByUser[p.id as string] = name
+      }
+    }
+    for (const o of oms ?? []) {
+      const name = nameByUser[o.user_id as string]
+      if (name) nameByMember[o.id as string] = name
+    }
+  }
+
+  return rows.map((r: Record<string, unknown>) => ({
+    ...r,
+    display_name: nameByMember[r.member_id as string] ?? null,
+  })) as ProjectMember[]
 }
 
 export async function addProjectMember(projectId: string, memberId: string, role: string): Promise<{ error: string }> {

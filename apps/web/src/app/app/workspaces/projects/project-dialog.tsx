@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { MemberPicker } from '@/components/shared/member-picker'
+import { DatePicker } from '@/components/shared/date-picker'
+import { RichTextEditor } from '@/components/shared/rich-text-editor'
 import { createProject, updateProject, type Project } from './actions'
 import type { OrgMemberOption } from '@/lib/workflow/members'
 
@@ -78,7 +80,7 @@ function ProjectForm({ project, members, onOpenChange, onSaved }: Omit<ProjectDi
         </div>
         <div className="space-y-2">
           <Label htmlFor="p-desc">Description</Label>
-          <Textarea id="p-desc" value={form.description} onChange={(e) => update('description', e.target.value)} placeholder="What this project is about" rows={3} />
+          <RichTextEditor value={form.description} onChange={(html) => update('description', html)} placeholder="What this project is about" />
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
@@ -92,23 +94,17 @@ function ProjectForm({ project, members, onOpenChange, onSaved }: Omit<ProjectDi
           </div>
           <div className="space-y-2">
             <Label htmlFor="p-lead">Project Lead</Label>
-            <Select value={form.lead_id} onValueChange={(v) => update('lead_id', v)}>
-              <SelectTrigger id="p-lead"><SelectValue placeholder="None" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">None</SelectItem>
-                {members.map((m) => (<SelectItem key={m.id} value={m.id}>{m.displayName}</SelectItem>))}
-              </SelectContent>
-            </Select>
+            <MemberPicker id="p-lead" members={members} value={form.lead_id || null} onValueChange={(v) => update('lead_id', v)} />
           </div>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="p-start">Start Date</Label>
-            <Input id="p-start" type="date" value={form.start_date} onChange={(e) => update('start_date', e.target.value)} />
+            <DatePicker id="p-start" value={form.start_date} onChange={(v) => update('start_date', v)} maxDate={form.due_date ? new Date(form.due_date) : undefined} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="p-due">Due Date</Label>
-            <Input id="p-due" type="date" value={form.due_date} onChange={(e) => update('due_date', e.target.value)} />
+            <DatePicker id="p-due" value={form.due_date} onChange={(v) => update('due_date', v)} minDate={form.start_date ? new Date(form.start_date) : undefined} />
           </div>
         </div>
       </div>

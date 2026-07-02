@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "react-day-picker/style.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -138,4 +139,26 @@
   html {
     @apply font-sans;
   }
+}
+/* Rich text editor (Tiptap) content — Design System typography */
+.zivo-prose :focus { outline: none; }
+.zivo-prose .ProseMirror { min-height: 8rem; outline: none; }
+.zivo-prose .ProseMirror > * + * { margin-top: 0.5rem; }
+.zivo-prose h1 { font-size: 1.25rem; font-weight: 600; line-height: 1.75rem; }
+.zivo-prose h2 { font-size: 1.05rem; font-weight: 600; line-height: 1.6rem; }
+.zivo-prose ul { list-style: disc; padding-left: 1.25rem; }
+.zivo-prose ol { list-style: decimal; padding-left: 1.25rem; }
+.zivo-prose a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
+.zivo-prose ul[data-type="taskList"] { list-style: none; padding-left: 0; }
+.zivo-prose ul[data-type="taskList"] li { display: flex; align-items: flex-start; gap: 0.5rem; }
+.zivo-prose ul[data-type="taskList"] li > label { margin-top: 0.15rem; }
+.zivo-prose table { border-collapse: collapse; width: 100%; margin: 0.5rem 0; }
+.zivo-prose th, .zivo-prose td { border: 1px solid var(--border); padding: 0.375rem 0.5rem; text-align: left; }
+.zivo-prose th { background: var(--muted); font-weight: 600; }
+.zivo-prose p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--muted-foreground);
+  float: left;
+  height: 0;
+  pointer-events: none;
 }
