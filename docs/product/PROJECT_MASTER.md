@@ -106,11 +106,37 @@ Reserved but NOT implemented in v1.0:
 1. ~~Foundation v1.0~~ — **FROZEN**
 2. ~~Zivo OS Design System~~ — **COMPLETE**
 3. ~~Home Dashboard + Workflow Foundation~~ — **COMPLETE**
-4. **Projects** (next)
-5. Tasks
-6. Calendar · Files · Meetings · Notifications
+4. ~~Projects — Preparation~~ — **COMPLETE** (audit + gap analysis: `docs/product/PROJECTS_PREP.md`)
+5. ~~Projects — Implementation (MVP, Project Model v1.0)~~ — **COMPLETE**
+6. **Tasks** (next)
+7. Calendar · Files · Meetings · Notifications
 
 HR, CRM, Finance come after the Internal Productivity Suite.
+
+---
+
+## Projects Module (MVP — Project Model v1.0)
+
+New module tables (migration `0008_projects.sql`) referencing frozen Foundation
+via FK — Foundation v1.0 untouched. Org-scoped RLS via `is_org_member` /
+`is_org_admin`.
+
+| Table | Purpose |
+|---|---|
+| projects | name, code, description, status (planning/active/on_hold/completed/archived), lead, start/due dates |
+| project_members | project ↔ organization_member, role (lead/member/viewer) |
+| project_areas | grouping within a project (formerly "Workstreams"): name, description, status, position |
+
+**UI** (`app/app/workspaces/projects/`) — list (search, status, row → detail),
+create/edit dialog, and a tabbed detail: Overview, Members (add/remove),
+Areas (CRUD), Files (placeholder), Activity (placeholder). All built from
+shared Design System components.
+
+**Shared infra added:** `getOrgMembers()` reader (`lib/workflow/members.ts`)
+for member pickers across future modules.
+
+Out of scope (not built): dependencies, Gantt, AI, automation, time tracking,
+budget, custom fields, approval engine.
 
 ---
 
