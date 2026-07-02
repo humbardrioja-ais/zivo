@@ -109,8 +109,8 @@ Reserved but NOT implemented in v1.0:
 4. ~~Projects — Preparation~~ — **COMPLETE** (audit + gap analysis: `docs/product/PROJECTS_PREP.md`)
 5. ~~Projects — Implementation (MVP, Project Model v1.0)~~ — **COMPLETE**
 5a. ~~Shared Form Components v1.0~~ — **COMPLETE** (MemberPicker, DatePicker, Combobox, RichTextEditor — see `docs/product/SHARED_COMPONENTS.md`)
-6. **Tasks** (next)
-7. Calendar · Files · Meetings · Notifications
+6. ~~Task Engine (MVP, Task Model v1.0)~~ — **COMPLETE** (see `docs/product/TASKS.md`)
+7. **Calendar · Files · Meetings · Notifications** (next)
 
 HR, CRM, Finance come after the Internal Productivity Suite.
 

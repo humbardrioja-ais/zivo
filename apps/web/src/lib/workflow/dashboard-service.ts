@@ -1,4 +1,5 @@
 import { getWorkflowContext, type WorkflowContext } from './context'
+import { getMyOpenTasks } from './tasks'
 import type {
   DashboardData,
   WorkItem,
@@ -29,10 +30,25 @@ export interface DashboardSources {
  * methods here (or compose module-provided sources) as modules ship.
  */
 const defaultSources: DashboardSources = {
-  async continueWorking() { return [] },
-  async myTasks() { return [] },
+  // In-progress tasks the user should resume.
+  async continueWorking(ctx) {
+    const tasks = await getMyOpenTasks(ctx)
+    return tasks.filter((t) => t.status === 'in_progress').slice(0, 5)
+  },
+  // All open tasks assigned to the user.
+  async myTasks(ctx) {
+    return getMyOpenTasks(ctx)
+  },
   async todaysMeetings() { return [] },
-  async upcomingDeadlines() { return [] },
+  // Assigned tasks that have a due date, soonest first.
+  async upcomingDeadlines(ctx) {
+    const tasks = await getMyOpenTasks(ctx)
+    return tasks
+      .filter((t) => t.dueAt)
+      .sort((a, b) => (a.dueAt! < b.dueAt! ? -1 : 1))
+      .slice(0, 5)
+      .map((t) => ({ id: t.id, module: t.module, title: t.title, dueAt: t.dueAt!, href: t.href }))
+  },
   async recentActivity() { return [] },
   async pinnedProjects() { return [] },
 }

@@ -10,17 +10,20 @@ import { PageLayout } from '@/components/shared/page-layout'
 import { cn } from '@/lib/utils'
 import { MembersTab } from './members-tab'
 import { AreasTab } from './areas-tab'
+import { TasksView } from '../../tasks/tasks-view'
 import type { Project, ProjectMember, ProjectArea } from '../actions'
+import type { Task } from '../../tasks/actions'
 import type { OrgMemberOption } from '@/lib/workflow/members'
 
 interface Props {
   project: Project
   initialMembers: ProjectMember[]
   initialAreas: ProjectArea[]
+  initialTasks: Task[]
   orgMembers: OrgMemberOption[]
 }
 
-const TABS = ['Overview', 'Members', 'Areas', 'Files', 'Activity'] as const
+const TABS = ['Overview', 'Tasks', 'Members', 'Areas', 'Files', 'Activity'] as const
 type Tab = (typeof TABS)[number]
 
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
@@ -32,7 +35,7 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
   )
 }
 
-export function ProjectDetail({ project, initialMembers, initialAreas, orgMembers }: Props) {
+export function ProjectDetail({ project, initialMembers, initialAreas, initialTasks, orgMembers }: Props) {
   const [tab, setTab] = useState<Tab>('Overview')
 
   const leadName = project.lead_id
@@ -87,6 +90,15 @@ export function ProjectDetail({ project, initialMembers, initialAreas, orgMember
             </div>
           </CardContent>
         </Card>
+      )}
+
+      {tab === 'Tasks' && (
+        <TasksView
+          initial={initialTasks}
+          members={orgMembers}
+          fixedProjectId={project.id}
+          areas={initialAreas.filter((a) => a.status === 'active').map((a) => ({ id: a.id, name: a.name }))}
+        />
       )}
 
       {tab === 'Members' && (
